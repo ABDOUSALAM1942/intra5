@@ -1,0 +1,559 @@
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #ede3e3;
+}
+
+/* .precontainer{
+    background-image: url("https://img.freepik.com/photos-premium/gnou-bleu-marchant-dans-brousse_107467-1107.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-attachment: fixed; /* Fixe le fond en place */
+/* height: 100vh; */
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.precontainer {
+    background-image: url("https://www.lifebiodivom.fr/wp-content/uploads/2020/04/trees-on-the-african-savanna-1024x561.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-attachment: fixed;
+    /* Fixe le fond en place */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+}
+
+#boutonwel {
+    margin-bottom: 25rem;
+    background: none;
+    border: 3px solid black;
+}
+
+#boutonwel2 {
+    background: none;
+    border: 2px solid black;
+}
+
+.bienve {
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    margin-top: 25rem;
+}
+
+#sp1 {
+    color: white;
+}
+
+#sp2 {
+    color: rgb(226, 87, 113);
+}
+
+.exposi {
+    text-align: center;
+    margin-top: 55px;
+}
+
+#sp3 {
+    color: rgb(2, 1, 1);
+    font-size: 50px;
+}
+
+#sp4 {
+    color: rgb(226, 87, 113);
+    font-size: 70px;
+}
+
+#titre {
+    margin-left: 20rem;
+}
+
+/* 2eme page */
+.about {
+    padding: 20px;
+    background-color: white;
+}
+
+.about2 {
+    margin-top: 4rem;
+    padding: 20px;
+}
+
+#titab {
+    position: absolute;
+    left: 10%;
+}
+
+.lorem {
+    margin-top: 5rem;
+    font-size: 20px;
+    color: #666;
+    text-align: justify;
+}
+
+#titab #ab {
+    font-weight: bold;
+    font-size: 45px;
+}
+
+#titab #us {
+    font-size: 55px;
+    font-style: italic;
+    color: rgb(226, 87, 113);
+
+}
+
+.lorem br {
+    margin-top: 10px;
+}
+
+.img img{
+    margin-top: -20rem;
+    margin-left: 65rem;
+    width: 45rem;
+    height: auto;
+}
+
+/* fin */
+
+
+img {
+    width: 100%;
+}
+
+.container {
+    max-width: 1400px;
+    padding: 8px;
+    margin: auto;
+    width: 100%;
+}
+
+h2.title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+}
+
+.shop-content {
+    /* display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(220px,auto)); */
+    gap: 1.5rem;
+    justify-content: center;
+    align-content: center;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.food-box1,
+.food-box2,
+.food-box3 {
+    position: relative;
+    background-color: #fff;
+    box-shadow: 0 1px 4px rgba(40, 37, 37, 0.1);
+    border-radius: 3px;
+    width: 18rem;
+}
+
+.pic {
+    overflow: hidden;
+}
+
+.pic:hover img {
+    transform: scale(1.5);
+}
+
+.food-img {
+    transition: 0.4s;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+}
+
+.food-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #070100;
+}
+
+.food-price {
+    font-weight: 500;
+    margin-left: 8rem;
+}
+
+.add-cart {
+    opacity: 0;
+    transition: opacity 0.3s;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #dae96a;
+    color: white;
+    padding: 10px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.5s;
+    margin-bottom: 60px;
+    border-radius: 10px 0 0 0;
+}
+
+.food-box1:hover .add-cart,
+.food-box2:hover .add-cart,
+.food-box3:hover .add-cart {
+    opacity: 1;
+}
+
+.add-cart:hover {
+    background-color: rgba(246, 243, 243, 0.786);
+    transform: scale(1);
+    opacity: 1;
+}
+
+
+.cart {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 300px;
+    height: 40rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 1px 4px rgba(40, 37, 37, 0.1);
+    z-index: 100;
+}
+
+.cart-active {
+    right: 0;
+    transition: 0.5s;
+}
+
+.cart-title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.cart-box {
+    display: grid;
+    grid-template-columns: 32% 50% 18%;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 10px;
+}
+
+.cart-img {
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    padding: 5px;
+}
+
+.detail-box {
+    display: grid;
+    row-gap: 0.5rem;
+}
+
+.price-box {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cart-food-title {
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: #ff6348;
+    font-weight: 500;
+}
+
+.cart-price {
+    font-weight: 500;
+}
+
+.cart-quantity {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    outline: none;
+    width: 2.4rem;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.cart-remove {
+    font-size: 24px;
+    color: red;
+    cursor: pointer;
+}
+
+.total {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+    justify-content: center;
+}
+
+.total-title {
+    margin-right: 100px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.total-price {
+    margin-left: 0.5rem;
+}
+
+.btn-buy {
+    border-radius: 8px;
+    padding: 12px 20px;
+    background-color: #2f3542;
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.btn-fer {
+    border-radius: 8px;
+    padding: 12px 20px;
+    background-color: #2f3542;
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* #cart-close {
+    position: absolute;
+    top: 1rem;
+    right: 0.8rem;
+    font-size: 2rem;
+    cursor: pointer;
+} */
+
+/* header styles */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99;
+    background-color: #ff4757;
+}
+
+#panier1 {
+    background: none;
+    border: none;
+    width: 10rem;
+    align-items: center;
+    padding: 5px;
+}
+
+#cart-icon {
+    border-radius: 5px;
+    width: 9rem;
+    align-items: center;
+    padding: 5px;
+}
+
+#cart-icon:hover {
+    background-color: rgb(244, 98, 186);
+}
+
+#recherche {
+    text-align: center;
+    margin: 20px;
+    width: 35rem;
+    margin-left: 24rem;
+}
+/* pop-u */
+/* Styles pour réduire la taille de la fenêtre modale */
+/* Styles pour réduire la taille de la fenêtre modale */
+.modal-content2 {
+    max-width: 1200px; /* Largeur maximale de la fenêtre modale */
+    margin: 0 auto; /* Centrez la fenêtre modale horizontalement */
+    padding: 60px; /* Espace intérieur de la fenêtre modale */
+    position: relative; /* Position relative pour le positionnement absolu du bouton de fermeture */
+}
+
+.modal-img {
+    max-width: 100%; /* Assurez-vous que l'image s'adapte à la largeur de la fenêtre */
+    height: auto;
+    border-radius: 5px; /* Permet à la hauteur de l'image de s'ajuster automatiquement */
+}
+
+/* Styles pour le bouton de fermeture (X) */
+.close2 {
+    margin-top: -3rem;
+    position: absolute; /* Position absolue par rapport à la fenêtre modale */
+    font-size: 24px; /* Taille de la police du bouton de fermeture */
+    cursor: pointer; /* Curseur de souris de type main pour indiquer que le bouton est cliquable */
+    background-color: #FF0000; /* Couleur de fond du bouton de fermeture (rouge dans cet exemple) */
+    color: #fff; /* Couleur du texte du bouton de fermeture */
+    padding: 5px 5px; /* Espace intérieur du bouton */
+    border-radius: 10%; /* Ajoute un arrondi pour rendre le bouton de fermeture circulaire */
+}
+
+/* Au survol, vous pouvez changer la couleur d'arrière-plan */
+.close2:hover {
+    background-color: #FF3333; /* Nouvelle couleur de fond au survol (rouge légèrement plus clair dans cet exemple) */
+}
+/* Styles pour centrer et ajouter border-radius aux boutons Précédent et Suivant */
+.modal-btn {
+    padding: 10px 20px; /* Espace intérieur des boutons */
+    font-size: 16px; /* Taille de la police des boutons */
+    background-color: #FF0000; /* Couleur de fond du bouton de fermeture (rouge dans cet exemple) */
+    color: #fff; /* Couleur du texte des boutons */
+    border: none; /* Supprimez les bordures des boutons */
+    cursor: pointer; /* Curseur de souris de type main pour indiquer que les boutons sont cliquables */
+    margin-right: 10px; /* Marge à droite pour espacer les boutons */
+    border-radius: 5px; /* Ajoutez un arrondi aux coins */
+    display: inline-block; /* Pour centrer horizontalement */
+}
+
+.modal-btn:last-child {
+    margin-right: 0; /* Aucune marge à droite pour le dernier bouton */
+}
+
+/* Pour centrer les boutons horizontalement */
+div > div > div {
+    text-align: center;
+}
+
+
+/* fin */
+
+#art1,
+#art2,
+#art3,
+#art4,
+#art5 {
+    border-radius: 5px;
+    margin: 35px;
+    width: 8rem;
+    height: 3rem;
+    background: none;
+}
+
+#rech {
+    background-color: #ff6348;
+}
+
+.rating {
+    position: absolute;
+    bottom: 10px;
+    margin-left: 10rem;
+    margin-bottom: 19rem
+}
+
+.star {
+    font-size: 20px;
+    cursor: pointer;
+
+}
+
+.notification {
+    background-color: #2ed573;
+    margin-bottom: 5rem;
+    width: 15rem;
+}
+
+/* .nav{
+    max-width: 1200px;
+    margin: auto;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  } */
+
+/* .logo{
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-decoration: none;
+    text-transform: uppercase;
+    color:#ffffff;
+  } */
+
+/* .box{
+    color:white;
+    width: 120px;
+    height: 20px;
+    text-align: center;
+    position: relative;
+  } */
+
+/* .cart-count{
+    position: absolute;
+    background-color: #2f3542;
+    top: -5px;
+    right: 0;
+    padding: 3px;
+    height: 20px;
+    width: 50px;
+    line-height:20px ;
+    border-radius: 50%;
+    z-index: 99;
+  }
+   */
+/* #cart-icon{
+    width: 130px;
+    font-size: 1.5rem;
+    cursor: pointer;
+  } */
+/* styles.css */
+/* .modal {
+
+    display: none;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+  } */
+
+.modal-content {
+    justify-content: center;
+    align-items: center;
+    background-color: #92f2bd;
+    margin: 15% auto;
+    padding: 15px;
+    border: 1px solid #888;
+    width: 20rem;
+    height: 15px;
+    margin-bottom: 35rem;
+    margin-left: 100rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    cursor: pointer;
+}
