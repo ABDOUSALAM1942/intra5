@@ -1,4 +1,3 @@
-// Sélection des éléments du DOM
 const btnCart = document.querySelector('#cart-icon');
 const cart = document.querySelector('.cart');
 const btnClose = document.querySelector('#cart-close');
@@ -8,21 +7,20 @@ const notif = document.querySelector('.notif');
 
 // Écouteurs d'événements pour le bouton de panier et le bouton de fermeture
 btnCart.addEventListener('click', () => {
-  // Lorsque le bouton de panier est cliqué, ajoute la classe 'cart-active' pour afficher le panier
+  // Lorsque le bouton de panier est cliqué, ajoutez la classe 'cart-active' pour afficher le panier
   cart.classList.add('cart-active');
 });
 
-
 btnClose.addEventListener('click', () => {
-  // Lorsque le bouton de fermeture du panier est cliqué, supprime la classe 'cart-active' pour masquer le panier
+  // Lorsque le bouton de fermeture du panier est cliqué, supprimez la classe 'cart-active' pour masquer le panier
   cart.classList.remove('cart-active');
 });
 
 // Écouteur d'événement lorsque le contenu de la page est chargé
-document.addEventListener('DOMContentLoaded', loadFood);
+document.addEventListener('DOMContentLoaded', loadSnack);
 
 // Fonction pour charger le contenu initial
-function loadFood() {
+function loadSnack() {
   loadContent();
 }
 
@@ -44,12 +42,11 @@ function loadContent() {
   let cartBtns = document.querySelectorAll('.add-cart');
   cartBtns.forEach((btn) => {
     btn.addEventListener('click', addCart);
-    
-
   });
 
-  // Met à jour le montant total du panier
+  // Mettre à jour le montant total du panier
   updateTotal();
+  // Appeler la fonction showNotification ici si nécessaire
 }
 
 // Fonction pour supprimer un article du panier
@@ -80,21 +77,24 @@ function addCart() {
 
   let newProduct = { title, price, imgSrc };
 
-// Définissez la condition pour contrôler quand vous voulez arrêter d'ajouter des produits
-let continueAddingProducts = true;
+  // Définissez la condition pour contrôler quand vous voulez arrêter d'ajouter des produits
+  let continueAddingProducts = true;
 
-// Utilisez une boucle while pour ajouter des produits tant que la condition est vraie
-while (continueAddingProducts) {
-  // Vérifiez si le produit est déjà dans le panier
-  if (itemList.find((el) => el.title === newProduct.title)) {
-    continueAddingProducts = false; // Arrêtez la boucle si le produit est déjà dans le panier
-  } else {
-    itemList.push(newProduct);
-    // Afficher une notification pour indiquer que l'article a été ajouté au panier
-    showNotification(`"${newProduct.title}" a été ajouté au panier.`);
+  // Utilisez une boucle while pour ajouter des produits tant que la condition est vraie
+  while (continueAddingProducts) {
+    // Vérifiez si le produit est déjà dans le panier
+    if (itemList.find((el) => el.title === newProduct.title)) {
+      continueAddingProducts = false; // Arrêtez la boucle si le produit est déjà dans le panier
+    } else {
+      itemList.push(newProduct);
+      // Afficher une notification pour indiquer que l'article a été ajouté au panier
+      showNotification(`"${newProduct.title}" a été ajouté au panier.`);
+      // Mettre à jour le nombre d'articles dans le bouton du panier
+      updateCartButtonCount();
+
+      continueAddingProducts = false; // Arrêtez la boucle puisque le produit est ajouté
+    }
   }
-}
-
 
   let newProductElement = createCartProduct(title, price, imgSrc);
   let element = document.createElement('div');
@@ -102,6 +102,9 @@ while (continueAddingProducts) {
   let cartBasket = document.querySelector('.cart-content');
   cartBasket.append(element);
   loadContent();
+
+  // Mettre à jour le nombre d'articles dans le bouton du panier
+  updateCartButtonCount();
 }
 
 // Fonction pour créer la structure HTML d'un article dans le panier
@@ -139,8 +142,13 @@ function updateTotal() {
 
   totalValue.innerHTML = total + '$';
 
-  // Met à jour le nombre de produits dans l'icône du panier
-  const cartCount = document.querySelector('.cart-count');
+  // Fonction pour mettre à jour le nombre d'articles dans le bouton du panier
+  updateCartButtonCount();
+}
+
+// Fonction pour mettre à jour le nombre d'articles dans le bouton du panier
+function updateCartButtonCount() {
+  const cartCount = document.querySelector('#cart-count');
   let count = itemList.length;
   cartCount.innerHTML = count;
 
@@ -181,14 +189,14 @@ var btnCobra = document.getElementById('art2');
 var btnReptile = document.getElementById('art3');
 var btnMangouste = document.getElementById('art4');
 
-// Ajoute un gestionnaire d'événement pour le bouton "Tout"
+// Ajoute un gestionnaire d'événements pour le bouton "Tout"
 btnAll.addEventListener('click', function () {
   foodItems.forEach(function (item) {
     item.style.display = 'block';
   });
 });
 
-// Ajoute un gestionnaire d'événement pour le bouton "Cobra"
+// Ajoute un gestionnaire d'événements pour le bouton "Cobra"
 btnCobra.addEventListener('click', function () {
   foodItems.forEach(function (item) {
     if (item.classList.contains('food-box1')) {
@@ -199,7 +207,7 @@ btnCobra.addEventListener('click', function () {
   });
 });
 
-// Ajoute un gestionnaire d'événement pour le bouton "Reptile"
+// Ajoute un gestionnaire d'événements pour le bouton "Reptile"
 btnReptile.addEventListener('click', function () {
   foodItems.forEach(function (item) {
     if (item.classList.contains('food-box2')) {
@@ -210,7 +218,7 @@ btnReptile.addEventListener('click', function () {
   });
 });
 
-// Ajoute un gestionnaire d'événement pour le bouton "Mangouste"
+// Ajoute un gestionnaire d'événements pour le bouton "Mangouste"
 btnMangouste.addEventListener('click', function () {
   foodItems.forEach(function (item) {
     if (item.classList.contains('food-box3')) {
@@ -226,68 +234,69 @@ const elementsSaisis = ["élément1", "élément2", "élément3"]; // Remplacez 
 
 // Fonction pour remplir la liste déroulante (datalist)
 function remplirDatalist() {
-    const datalist = document.getElementById('saisis');
-    datalist.innerHTML = ''; // Effacez la liste déroulante actuelle
+  const datalist = document.getElementById('saisis');
+  datalist.innerHTML = ''; // Effacez la liste déroulante actuelle
 
-    // Ajoutez chaque élément saisi à la liste déroulante
-    elementsSaisis.forEach(function(element) {
-        const option = document.createElement('option');
-        option.value = element;
-        datalist.appendChild(option);
-    });
+  // Ajoutez chaque élément saisi à la liste déroulante
+  elementsSaisis.forEach(function (element) {
+    const option = document.createElement('option');
+    option.value = element;
+    datalist.appendChild(option);
+  });
 }
+
 const imageContainers = document.querySelectorAll('.pic');
 
 imageContainers.forEach((container) => {
-    const stars = container.querySelectorAll('.star');
-    const ratingContainer = container.querySelector('.rating .rating');
-    let selectedRating = 0;
+  const stars = container.querySelectorAll('.star');
+  const ratingContainer = container.querySelector('.rating .rating');
+  let selectedRating = 0;
 
-    stars.forEach((star) => {
-        star.addEventListener('mouseover', () => {
-            const rating = star.getAttribute('data-rating');
-            highlightStars(stars, rating);
-        });
-
-        star.addEventListener('click', () => {
-            selectedRating = star.getAttribute('data-rating');
-            ratingContainer.textContent = selectedRating;
-        });
-
-        star.addEventListener('mouseout', () => {
-            highlightStars(stars, selectedRating);
-        });
+  stars.forEach((star) => {
+    star.addEventListener('mouseover', () => {
+      const rating = star.getAttribute('data-rating');
+      highlightStars(stars, rating);
     });
 
-    function highlightStars(stars, rating) {
-        stars.forEach((star) => {
-            if (star.getAttribute('data-rating') <= rating) {
-                star.style.color = 'gold';
-            } else {
-                star.style.color = 'gray';
-            }
-        });
-    }
+    star.addEventListener('click', () => {
+      selectedRating = star.getAttribute('data-rating');
+      ratingContainer.textContent = selectedRating;
+    });
+
+    star.addEventListener('mouseout', () => {
+      highlightStars(stars, selectedRating);
+    });
+  });
+
+  function highlightStars(stars, rating) {
+    stars.forEach((star) => {
+      if (star.getAttribute('data-rating') <= rating) {
+        star.style.color = 'gold';
+      } else {
+        star.style.color = 'gray';
+      }
+    });
+  }
 });
-// notification.js
+
 // notification.js
 
 // Fonction pour afficher la fenêtre modale de notification
 function showNotification(message) {
-  const modal = document.querySelector('.modal');
+  const modal = document.getElementById('modaal');
   const notificationMessage = document.getElementById('notification-message');
 
   notificationMessage.textContent = message;
   modal.style.display = 'block';
 
-  // Définir un délai de 5 secondes (5000 millisecondes) pour masquer la fenêtre modale
+  // Définir un délai de 3 secondes (3000 millisecondes) pour masquer la fenêtre modale
   setTimeout(() => {
     modal.style.display = 'none';
   }, 3000);
 }
 
 // Sélectionnez tous les éléments des classes "food-box1", "food-box2" et "food-box3"
-const foodBoxes = document.querySelectorAll('.food-box1, .food-box2, .food-box3');
+const foodBoxes = document.querySelectorAll('.pic');
 
 // Sélectionnez la modal et ses éléments
 const modal = document.getElementById('image-modal');
@@ -336,8 +345,3 @@ nextImageBtn.addEventListener('click', () => {
 modalClose.addEventListener('click', () => {
   modal.style.display = 'none'; // Fermez la modal en la masquant
 });
-
-
-
-
-
