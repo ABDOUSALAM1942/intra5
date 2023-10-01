@@ -1,10 +1,10 @@
+
 const btnCart = document.querySelector('#cart-icon');
 const cart = document.querySelector('.cart');
 const btnClose = document.querySelector('#cart-close');
 const exp = document.getElementById("boutonwel");
 const cont = document.querySelector('.container');
 const notif = document.querySelector('.notif');
-let cartBasket = document.querySelector('.cart-content');
 
 // Écouteurs d'événements pour le bouton de panier et le bouton de fermeture
 btnCart.addEventListener('click', () => {
@@ -17,13 +17,13 @@ btnClose.addEventListener('click', () => {
   cart.classList.remove('cart-active');
 });
 
-// // Écouteur d'événement lorsque le contenu de la page est chargé
-// document.addEventListener('DOMContentLoaded', loadSnack);
+// Écouteur d'événement lorsque le contenu de la page est chargé
+document.addEventListener('DOMContentLoaded', loadSnack);
 
-// // Fonction pour charger le contenu initial
-// function loadSnack() {
-//   loadContent();
-// }
+// Fonction pour charger le contenu initial
+function loadSnack() {
+  loadContent();
+}
 
 // Fonction pour charger le contenu
 function loadContent() {
@@ -52,20 +52,34 @@ function loadContent() {
 
 function removeItem() {
   let title = this.parentElement.querySelector('.cart-food-title').innerHTML;
+
+  // Supprimer l'élément HTML correspondant à l'article du panier
   this.parentElement.remove();
+
+  // Mettre à jour itemList en supprimant l'article du panier
   itemList = itemList.filter((el) => el.title !== title);
+
+  // Mettez à jour le panier dans le localStorage
   localStorage.setItem('cartItems', JSON.stringify(itemList));
-  updateCartItemCount();
+
+ // Mettez à jour le nombre d'articles dans le bouton du panier
+ updateCartItemCount();
+
+  // Vous pouvez également afficher une notification pour indiquer que l'article a été supprimé
   showNotification('Suppression', `"${title}" a été supprimé du panier.`);
+
+  // Vous pouvez également mettre à jour le montant total du panier si nécessaire
   updateTotal();
 }
+
+
 // Fonction pour changer la quantité d'un article dans le panier
 function changeQty() {
   if (isNaN(this.value) || this.value < 1) {
     this.value = 1;
   }
-  // Mettez à jour le nombre d'articles dans le bouton du panier
-  updateCartItemCount();
+   // Mettez à jour le nombre d'articles dans le bouton du panier
+   updateCartItemCount();
   loadContent();
 }
 
@@ -77,23 +91,40 @@ function addCart() {
   let title = food.querySelector('.food-title').innerHTML;
   let price = food.querySelector('.food-price').innerHTML;
   let imgSrc = food.querySelector('.food-img').src;
+
   let newProduct = { title, price, imgSrc, quantity: 1 }; // Ajoutez la propriété quantity
+
   // Vérifiez si le produit est déjà dans le panier
   const existingProduct = itemList.find((el) => el.title === newProduct.title);
+
   if (existingProduct) {
+    // Si le produit existe déjà, augmentez simplement sa quantité de 1
     existingProduct.quantity += 1;
+    // Affichez une notification pour indiquer que la quantité a été augmentée
     showNotification('Quantité mise à jour', `"${title}" a été ajouté au panier. La quantité est maintenant de ${existingProduct.quantity}.`);
   } else {
+    // Si le produit n'existe pas encore, ajoutez-le avec une quantité de 1
     itemList.push(newProduct);
+    // Affichez une notification pour indiquer que le produit a été ajouté au panier
     showNotification('Article ajouté', `"${title}" a été ajouté au panier.`);
   }
-  // Mettre à jour le panier dans le localStorage
+  // Mettez à jour le panier dans le localStorage
   localStorage.setItem('cartItems', JSON.stringify(itemList));
   updateCartItemCount();
-  const savedCartItems = JSON.parse(localStorage.getItem('cartItems'));
-  createCartProduct(savedCartItems);
+
+  let newProductElement = createCartProduct(title, price, imgSrc);
+  let element = document.createElement('div');
+  element.innerHTML = newProductElement;
+  let cartBasket = document.querySelector('.cart-content');
+  cartBasket.append(element);
   loadContent();
 }
+
+
+
+
+
+
 
 // Fonction pour charger les articles du panier depuis le localStorage
 function loadCartItems() {
@@ -104,7 +135,7 @@ function loadCartItems() {
   }
 }
 
-// updateCartItemCount au chargement de la page pour afficher le nombre d'articles initial :
+// Assurez-vous également d'appeler updateCartItemCount au chargement de la page pour afficher le nombre d'articles initial :
 document.addEventListener('DOMContentLoaded', () => {
   loadCartItems();
   loadContent();
@@ -112,34 +143,30 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Fonction pour créer la structure HTML d'un article dans le panier
-function createCartProduct(array) {
-  console.log(array);
-  cartBasket.innerHTML= "";
-if (array.length >0) {
-  array.forEach((el)=> {
-    cartBasket.innerHTML +=`
+function createCartProduct(title, price, imgSrc) {
+  return `
     <div class="cart-box">
-      <img src="${el.imgSrc}" class="cart-img">
+      <img src="${imgSrc}" class="cart-img">
       <div class="detail-box">
-        <div class="cart-food-title">${el.title}</div>
+        <div class="cart-food-title">${title}</div>
         <div class="price-box">
-          <div class="cart-price">${el.price}</div>
-          <div class="cart-amt">${el.price}</div>
+          <div class="cart-price">${price}</div>
+          <div class="cart-amt">${price}</div>
         </div>
         <input type="number" value="1" class="cart-quantity">
       </div>
       <ion-icon name="trash" class="cart-remove"></ion-icon>
     </div>
   `;
-  }) 
-}
 }
 
 // Fonction pour mettre à jour le montant total du panier
 function updateTotal() {
   const cartItems = document.querySelectorAll('.cart-box');
   const totalValue = document.querySelector('.total-price');
+
   let total = 0;
+
   cartItems.forEach((product) => {
     let priceElement = product.querySelector('.cart-price');
     let price = parseFloat(priceElement.innerHTML.replace("$", ""));
@@ -147,9 +174,12 @@ function updateTotal() {
     total += price * qty;
     product.querySelector('.cart-amt').innerText = "$" + price * qty;
   });
+
   totalValue.innerHTML = total + '$';
+
   updateCartItemCount(); // Mettez à jour le compteur au chargement de la page
 }
+
 // Fonction pour mettre à jour le nombre d'articles dans le bouton du panier
 function updateCartItemCount() {
   const cartCount = document.querySelector('#cart-count');
@@ -159,8 +189,10 @@ function updateCartItemCount() {
   itemList.forEach((item) => {
     itemCount += item.quantity;
   });
+
   // Mettre à jour le contenu du bouton du panier avec le nombre d'articles
   cartCount.textContent = itemCount;
+
   // Afficher ou masquer le compteur en fonction du nombre d'articles
   if (itemCount > 0) {
     cartCount.style.display = 'block';
@@ -168,69 +200,41 @@ function updateCartItemCount() {
     cartCount.style.display = 'none';
   }
 }
-// // Au chargement de la page, récupérez les données du localStorage s'il y en a
-// window.onload = function () {
-//   const storedItems = localStorage.getItem('cartItems');
-//   if (storedItems) {
-//     itemList = JSON.parse(storedItems);
-//     // Mettez à jour le nombre d'articles dans le bouton du panier
-//     updateCartItemCount();
-//   }
-// }
 
-// // Récupère les éléments à filtrer
-// var foodItems = document.querySelectorAll('.food-box1, .food-box2, .food-box3, .food-box');
-// var searchInput = document.getElementById('example-search-input');
-// searchInput.addEventListener('input', function () {
-//   var filter = searchInput.value.toLowerCase();
-//   // Parcourt tous les éléments de la liste
-//   foodItems.forEach(function (item) {
-//     var titleElement = item.querySelector('.food-title');
-//     var titleText = titleElement.textContent.toLowerCase();
-//     // Vérifie si le texte du titre correspond au filtre
-//     if (titleText.indexOf(filter) !== -1) {
-//       item.style.display = 'block'; // Affiche l'élément
-//     } else {
-//       item.style.display = 'none'; // Masque l'élément
-//     }
-//   });
-// });
+// Au chargement de la page, récupérez les données du localStorage s'il y en a
+window.onload = function() {
+  const storedItems = localStorage.getItem('cartItems');
+  if (storedItems) {
+    itemList = JSON.parse(storedItems);
+ // Mettez à jour le nombre d'articles dans le bouton du panier
+ updateCartItemCount();  }
+}
 
-// Supposons que vous avez déjà chargé vos articles depuis un fichier JSON et les avez stockés dans une variable articlesJSON.
 
-// Écoutez l'événement "input" sur l'élément de saisie de recherche
-const inputRecherche = document.getElementById("example-search-input");
-inputRecherche.addEventListener("input", function () {
-    // Récupérez la valeur saisie par l'utilisateur
-    const recherche = inputRecherche.value.toLowerCase();
 
-    // Filtrer les articles HTML
-    const articlesHTML = document.querySelectorAll(".food-box1, .food-box2, .food-box3");
-    articlesHTML.forEach(function (article) {
-        const titre = article.querySelector(".food-title").textContent.toLowerCase();
-        if (titre.includes(recherche)) {
-            article.style.display = "block"; // Afficher l'article s'il correspond à la recherche
-        } else {
-            article.style.display = "none"; // Masquer l'article s'il ne correspond pas
-        }
-    });
+// Récupère les éléments à filtrer
+var foodItems = document.querySelectorAll('.food-box1, .food-box2, .food-box3');
 
-    // Filtrer les articles JSON
-    const articlesFiltres = articlesJSON.filter(function (article) {
-        const titre = article.title.toLowerCase();
-        return titre.includes(recherche);
-    });
+// Récupère l'élément champ de recherche
+var searchInput = document.getElementById('example-search-input');
 
-    // Mettez à jour votre interface utilisateur avec les résultats JSON (vous pouvez le personnaliser selon vos besoins)
-    const resultatJSON = document.getElementById("resultat-json");
-    resultatJSON.innerHTML = ""; // Effacez les résultats précédents
-    articlesFiltres.forEach(function (article) {
-        const articleDiv = document.createElement("div");
-        articleDiv.textContent = article.title;
-        resultatJSON.appendChild(articleDiv); // Ajoutez les résultats à votre interface utilisateur
-    });
+// Ajoute un gestionnaire d'événement pour le champ de recherche
+searchInput.addEventListener('input', function () {
+  var filter = searchInput.value.toLowerCase();
+
+  // Parcourt tous les éléments de la liste
+  foodItems.forEach(function (item) {
+    var titleElement = item.querySelector('.food-title');
+    var titleText = titleElement.textContent.toLowerCase();
+
+    // Vérifie si le texte du titre correspond au filtre
+    if (titleText.indexOf(filter) !== -1) {
+      item.style.display = 'block'; // Affiche l'élément
+    } else {
+      item.style.display = 'none'; // Masque l'élément
+    }
+  });
 });
-
 
 // Sélectionnez les boutons de catégorie existants
 var btnAll = document.getElementById('art1');
@@ -441,124 +445,66 @@ const jsonData = [
     "filtres": ["Filtre 10", "Filtre 11"],
     "categorie": "food-box3"
   },
-  {
-    "id": "article6",
-    "nom": "Reptile6",
-    prix: 135,
-    "image": "./images/Reptile6.jpeg",
-    "votes": 3,
-    "filtres": ["Filtre 10", "Filtre 11"],
-    "categorie": "food-box2"
-  },
-  {
-    "id": "article7",
-    "nom": "Mangouste6",
-    prix: 300,
-    "image": "./images/Mangouste6.jpeg",
-    "votes": 3,
-    "filtres": ["Filtre 10", "Filtre 11"],
-    "categorie": "food-box3"
-  },
-  {
-    "id": "article8",
-    "nom": "Mangouste7",
-    prix: 340,
-    "image": "./images/Mangouste7.webp",
-    "votes": 3,
-    "filtres": ["Filtre 10", "Filtre 11"],
-    "categorie": "food-box3"
-  },
 ]
 
 // Fonction pour créer la structure HTML d'un article
 function createFoodBox(article) {
   const foodBox = document.createElement("div");
-  const picDiv = document.createElement("div");
-  const baima = document.createElement("div");
-  // Ajoutez "overflow: hidden" à l'élément img
-  foodBox.style.overflow = "hidden";
+   // Ajoutez "overflow: hidden" à l'élément img
+ foodBox.style.overflow = "hidden";
   foodBox.classList.add("food-box");
   foodBox.classList.add(article.categorie); // Ajoutez la classe de catégorie
   foodBox.classList.add("articles"); // Ajoutez la classe "articles" pour filtrage
-  picDiv.classList.add("pic");
-  // Créez les éléments HTML pour l'article
-  // Créez l'élément img et ajoutez-lui une classe
-  const image = document.createElement("img");
-  image.src = article.image;
-  image.classList.add("food-img");
-  image.classList.add("food-img-hover"); // Ajoutez une classe pour le style au survol
 
-  baima.classList.add("baima");
+
+  // Créez les éléments HTML pour l'article
+// Créez l'élément img et ajoutez-lui une classe
+const image = document.createElement("img");
+image.src = article.image;
+image.classList.add("food-img");
+image.classList.add("food-img-hover"); // Ajoutez une classe pour le style au survol
+
 
   const title = document.createElement("h2");
   title.classList.add("food-title");
   title.textContent = article.nom;
-  title.style.marginRight = "190px";
-
-
 
   const price = document.createElement("span");
   price.classList.add("food-price");
   price.textContent = article.prix + " $";
-  price.style.marginLeft = "190px";
 
   const rating = document.createElement("div");
   rating.classList.add("rating");
-
-  // Créez les étoiles de notation ici
-  for (let i = 1; i <= 5; i++) {
-    const star = document.createElement("span");
-    star.classList.add("star");
-    star.setAttribute("data-rating", i);
-
-    // Ajoutez un symbole d'étoile (★) comme texte à l'intérieur de l'élément span
-    star.textContent = "★";
-
-    rating.appendChild(star);
-  }
+  // Ajoutez les étoiles de notation ici
 
   const addToCart = document.createElement("ion-icon");
   addToCart.name = "cart";
   addToCart.classList.add("add-cart");
 
   // Ajoutez ces éléments à la foodBox
-  foodBox.appendChild(picDiv);
-  picDiv.appendChild(image);
-  foodBox.appendChild(baima);
-  baima.appendChild(title);
-  baima.appendChild(price);
-  picDiv.appendChild(rating);
+  foodBox.appendChild(image);
+  foodBox.appendChild(title);
+  foodBox.appendChild(price);
+  foodBox.appendChild(rating);
   foodBox.appendChild(addToCart);
 
 
-  // Ajoutez un gestionnaire d'événements pour les votes
-  rating.addEventListener("click", (event) => {
+   // Ajoutez un gestionnaire d'événements pour les votes
+   rating.addEventListener("click", (event) => {
     if (event.target.classList.contains("star")) {
       const selectedRating = parseInt(event.target.dataset.rating);
       // Vous pouvez maintenant mettre en œuvre la logique de vote ici
       // Par exemple, enregistrer le vote dans l'objet article ou dans une base de données
       // Puis mettez à jour l'affichage des étoiles en conséquence
-
-
-      // Obtenez toutes les étoiles
-      const stars = rating.querySelectorAll('.star');
-
-      // Parcourez toutes les étoiles et ajoutez la classe 'selected' à celles jusqu'à l'étoile cliquée
-      stars.forEach((star) => {
-        const starRating = parseInt(star.dataset.rating);
-        if (starRating <= selectedRating) {
-          star.classList.add('selected');
-        } else {
-          star.classList.remove('selected');
-        }
-      });
+      // Vous pouvez également afficher une notification pour indiquer que le vote a été pris en compte
+      showNotification(`Vous avez donné une note de ${selectedRating} étoiles.`);
     }
   });
 
+  foodBox.appendChild(rating);
 
   return foodBox;
 }
-
 
 // Fonction pour créer et afficher les articles à partir des données JSON
 function displayArticles(data) {
@@ -574,5 +520,7 @@ function displayArticles(data) {
 // Appel de la fonction pour afficher les articles à partir des données JSON
 displayArticles(jsonData);
 
-const savedCartItems = JSON.parse(localStorage.getItem('cartItems'));
-createCartProduct(savedCartItems);
+
+
+
+

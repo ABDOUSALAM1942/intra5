@@ -24,7 +24,7 @@ body {
 }
 
 .precontainer {
-    background-image: url("https://www.lifebiodivom.fr/wp-content/uploads/2020/04/trees-on-the-african-savanna-1024x561.jpg");
+    background-image: url("https://www.gembloux.uliege.be/upload/docs/image/jpeg/2019-01/savanna_andyplumptre.jpg");
     background-repeat: no-repeat;
     background-size: 100%;
     background-attachment: fixed;
@@ -56,13 +56,15 @@ body {
     text-align: center;
     margin-top: 25rem;
 }
-
+.cart-box
 #sp1 {
     color: white;
 }
 
 #sp2 {
-    color: rgb(226, 87, 113);
+    color: rgb(241, 19, 60);
+    font-weight: bold;
+    font-family:Georgia, 'Times New Roman', Times, serif
 }
 
 .exposi {
@@ -165,11 +167,12 @@ h2.title {
 .food-box2,
 .food-box3 {
     position: relative;
-    background-color: #fff;
+    background-color: #a8d8c3;
     box-shadow: 0 1px 4px rgba(40, 37, 37, 0.1);
     border-radius: 3px;
     width: 18rem;
 }
+
 
 .pic {
     overflow: hidden;
@@ -178,6 +181,13 @@ h2.title {
 .pic:hover img {
     transform: scale(1.5);
 }
+/* Style pour agrandir l'image au survol */
+.food-img-hover:hover {
+    transform: scale(1.5);
+    transition: transform 0.3s; /* Ajoute une transition pour une animation fluide */
+  }
+
+  
 
 .food-img {
     transition: 0.4s;
@@ -377,7 +387,10 @@ header {
     align-items: center;
     padding: 5px;
 }
+#cart-icon span{
+    color: red;
 
+}
 #cart-icon:hover {
     background-color: rgb(244, 98, 186);
 }
@@ -473,6 +486,13 @@ div > div > div {
     cursor: pointer;
 
 }
+.star:hover {
+    color: gold;
+  }
+  .star.selected {
+    color: gold;
+  }
+  
 
 .notification {
     background-color: #2ed573;
@@ -539,15 +559,16 @@ div > div > div {
 .modal-content {
     justify-content: center;
     align-items: center;
-    background-color: #92f2bd;
+    background-color: #73c2ed;
     margin: 15% auto;
     padding: 15px;
     border: 1px solid #888;
     width: 20rem;
-    height: 15px;
+    height: 7rem;
     margin-bottom: 35rem;
     margin-left: 100rem;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
 }
 
 .close {
