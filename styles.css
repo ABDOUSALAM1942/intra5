@@ -56,15 +56,15 @@ body {
     text-align: center;
     margin-top: 25rem;
 }
-.cart-box
-#sp1 {
+
+.cart-box #sp1 {
     color: white;
 }
 
 #sp2 {
     color: rgb(241, 19, 60);
     font-weight: bold;
-    font-family:Georgia, 'Times New Roman', Times, serif
+    font-family: Georgia, 'Times New Roman', Times, serif
 }
 
 .exposi {
@@ -125,7 +125,7 @@ body {
     margin-top: 10px;
 }
 
-.img img{
+.img img {
     margin-top: -20rem;
     margin-left: 65rem;
     width: 45rem;
@@ -181,13 +181,15 @@ h2.title {
 .pic:hover img {
     transform: scale(1.5);
 }
+
 /* Style pour agrandir l'image au survol */
 .food-img-hover:hover {
     transform: scale(1.5);
-    transition: transform 0.3s; /* Ajoute une transition pour une animation fluide */
-  }
+    transition: transform 0.3s;
+    /* Ajoute une transition pour une animation fluide */
+}
 
-  
+
 
 .food-img {
     transition: 0.4s;
@@ -387,10 +389,12 @@ header {
     align-items: center;
     padding: 5px;
 }
-#cart-icon span{
+
+#cart-icon span {
     color: red;
 
 }
+
 #cart-icon:hover {
     background-color: rgb(244, 98, 186);
 }
@@ -401,57 +405,83 @@ header {
     width: 35rem;
     margin-left: 24rem;
 }
+
 /* pop-u */
 /* Styles pour réduire la taille de la fenêtre modale */
 /* Styles pour réduire la taille de la fenêtre modale */
 .modal-content2 {
-    max-width: 1200px; /* Largeur maximale de la fenêtre modale */
-    margin: 0 auto; /* Centrez la fenêtre modale horizontalement */
-    padding: 60px; /* Espace intérieur de la fenêtre modale */
-    position: relative; /* Position relative pour le positionnement absolu du bouton de fermeture */
+    max-width: 1200px;
+    /* Largeur maximale de la fenêtre modale */
+    margin: 0 auto;
+    /* Centrez la fenêtre modale horizontalement */
+    padding: 60px;
+    /* Espace intérieur de la fenêtre modale */
+    position: relative;
+    /* Position relative pour le positionnement absolu du bouton de fermeture */
 }
 
 .modal-img {
-    max-width: 100%; /* Assurez-vous que l'image s'adapte à la largeur de la fenêtre */
+    max-width: 100%;
+    /* Assurez-vous que l'image s'adapte à la largeur de la fenêtre */
     height: auto;
-    border-radius: 5px; /* Permet à la hauteur de l'image de s'ajuster automatiquement */
+    border-radius: 5px;
+    /* Permet à la hauteur de l'image de s'ajuster automatiquement */
 }
 
 /* Styles pour le bouton de fermeture (X) */
 .close2 {
     margin-top: -3rem;
-    position: absolute; /* Position absolue par rapport à la fenêtre modale */
-    font-size: 24px; /* Taille de la police du bouton de fermeture */
-    cursor: pointer; /* Curseur de souris de type main pour indiquer que le bouton est cliquable */
-    background-color: #FF0000; /* Couleur de fond du bouton de fermeture (rouge dans cet exemple) */
-    color: #fff; /* Couleur du texte du bouton de fermeture */
-    padding: 5px 5px; /* Espace intérieur du bouton */
-    border-radius: 10%; /* Ajoute un arrondi pour rendre le bouton de fermeture circulaire */
+    position: absolute;
+    /* Position absolue par rapport à la fenêtre modale */
+    font-size: 24px;
+    /* Taille de la police du bouton de fermeture */
+    cursor: pointer;
+    /* Curseur de souris de type main pour indiquer que le bouton est cliquable */
+    background-color: #FF0000;
+    /* Couleur de fond du bouton de fermeture (rouge dans cet exemple) */
+    color: #fff;
+    /* Couleur du texte du bouton de fermeture */
+    padding: 5px 5px;
+    /* Espace intérieur du bouton */
+    border-radius: 10%;
+    /* Ajoute un arrondi pour rendre le bouton de fermeture circulaire */
 }
 
 /* Au survol, vous pouvez changer la couleur d'arrière-plan */
 .close2:hover {
-    background-color: #FF3333; /* Nouvelle couleur de fond au survol (rouge légèrement plus clair dans cet exemple) */
+    background-color: #FF3333;
+    /* Nouvelle couleur de fond au survol (rouge légèrement plus clair dans cet exemple) */
 }
+
 /* Styles pour centrer et ajouter border-radius aux boutons Précédent et Suivant */
 .modal-btn {
-    padding: 10px 20px; /* Espace intérieur des boutons */
-    font-size: 16px; /* Taille de la police des boutons */
-    background-color: #FF0000; /* Couleur de fond du bouton de fermeture (rouge dans cet exemple) */
-    color: #fff; /* Couleur du texte des boutons */
-    border: none; /* Supprimez les bordures des boutons */
-    cursor: pointer; /* Curseur de souris de type main pour indiquer que les boutons sont cliquables */
-    margin-right: 10px; /* Marge à droite pour espacer les boutons */
-    border-radius: 5px; /* Ajoutez un arrondi aux coins */
-    display: inline-block; /* Pour centrer horizontalement */
+    padding: 10px 20px;
+    /* Espace intérieur des boutons */
+    font-size: 16px;
+    /* Taille de la police des boutons */
+    background-color: #FF0000;
+    /* Couleur de fond du bouton de fermeture (rouge dans cet exemple) */
+    color: #fff;
+    /* Couleur du texte des boutons */
+    border: none;
+    /* Supprimez les bordures des boutons */
+    cursor: pointer;
+    /* Curseur de souris de type main pour indiquer que les boutons sont cliquables */
+    margin-right: 10px;
+    /* Marge à droite pour espacer les boutons */
+    border-radius: 5px;
+    /* Ajoutez un arrondi aux coins */
+    display: inline-block;
+    /* Pour centrer horizontalement */
 }
 
 .modal-btn:last-child {
-    margin-right: 0; /* Aucune marge à droite pour le dernier bouton */
+    margin-right: 0;
+    /* Aucune marge à droite pour le dernier bouton */
 }
 
 /* Pour centrer les boutons horizontalement */
-div > div > div {
+div>div>div {
     text-align: center;
 }
 
@@ -486,75 +516,21 @@ div > div > div {
     cursor: pointer;
 
 }
+
 .star:hover {
     color: gold;
-  }
-  .star.selected {
+}
+
+.star.selected {
     color: gold;
-  }
-  
+}
+
 
 .notification {
     background-color: #2ed573;
     margin-bottom: 5rem;
     width: 15rem;
 }
-
-/* .nav{
-    max-width: 1200px;
-    margin: auto;
-    width: 100%;
-    height: 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  } */
-
-/* .logo{
-    font-size: 1.1rem;
-    font-weight: 500;
-    text-decoration: none;
-    text-transform: uppercase;
-    color:#ffffff;
-  } */
-
-/* .box{
-    color:white;
-    width: 120px;
-    height: 20px;
-    text-align: center;
-    position: relative;
-  } */
-
-/* .cart-count{
-    position: absolute;
-    background-color: #2f3542;
-    top: -5px;
-    right: 0;
-    padding: 3px;
-    height: 20px;
-    width: 50px;
-    line-height:20px ;
-    border-radius: 50%;
-    z-index: 99;
-  }
-   */
-/* #cart-icon{
-    width: 130px;
-    font-size: 1.5rem;
-    cursor: pointer;
-  } */
-/* styles.css */
-/* .modal {
-
-    display: none;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-  } */
 
 .modal-content {
     justify-content: center;
@@ -577,4 +553,134 @@ div > div > div {
     right: 0;
     padding: 10px;
     cursor: pointer;
+}
+
+@media (max-width: 1440px) {
+    #img {
+        margin-left: 50rem;
+        width: 35rem;
+    }
+}
+
+@media (max-width: 1440px) {
+    .lorem {
+        margin-top: 5rem;
+        font-size: 14px;
+        color: #666;
+        text-align: justify;
+    }
+
+    #titab #ab {
+        font-weight: bold;
+        font-size: 25px;
+    }
+
+    #titab #us {
+        font-size: 35px;
+        font-style: italic;
+        color: rgb(226, 87, 113);
+    }
+
+    #img {
+        margin-left: 35rem;
+        width: 25rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .lorem {
+        margin-top: 5rem;
+        font-size: 10px;
+        color: #666;
+        text-align: justify;
+    }
+
+    #img {
+        margin-left: 26rem;
+        width: 20rem;
+    }
+
+    #recherche {
+        text-align: center;
+        margin: 20px;
+        width: 25rem;
+        margin-left: 10rem;
+    }
+
+    #art1,
+    #art2,
+    #art3,
+    #art4,
+    #art5 {
+        border-radius: 5px;
+        margin: 35px;
+        width: 6rem;
+        height: 2rem;
+    }
+}
+
+@media (max-width: 425px) {
+    .about {
+        display: flex;
+        flex-direction: column;
+        /* Stack the elements vertically */
+        text-align: center;
+    }
+
+    .lorem {
+        margin-top: 60px;
+        font-size: 8px;
+        text-align: justify;
+        text-align: center;
+    }
+
+    #img {
+        margin-top: 10rem;
+        margin-left: 5px;
+        width: 21rem;
+    }
+
+    #titab #ab {
+        font-weight: bold;
+        font-size: 25px;
+        margin-left: 6rem;
+    }
+
+    #boutonwel2 a {
+        display: none;
+    }
+
+    #recherche {
+        text-align: center;
+        margin: 20px;
+        width: 15rem;
+        margin-left: 5rem;
+    }
+
+    /* Stylisation du bouton du menu hamburger */
+    .navbar-toggler {
+        border: none;
+        background: transparent;
+    }
+
+    .navbar-toggler-icon {
+        background-color: #333;
+        /* Couleur de l'icône du hamburger */
+    }
+
+    /* Stylisation des liens du menu lorsqu'il est réduit */
+    .collapse.navbar-collapse {
+        background-color: #f8f9fa;
+        /* Couleur de fond pour le menu réduit */
+        position: absolute;
+        top: 50px;
+        /* Ajustez ceci en fonction de votre mise en page */
+        left: 0;
+        right: 0;
+        display: none;
+    }
+
+    .collapse.navbar-collapse.show {
+        display: block;
+    }
 }
