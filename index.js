@@ -31,6 +31,8 @@ function loadContent() {
   let btnRemove = document.querySelectorAll('.cart-remove');
   btnRemove.forEach((btn) => {
     btn.addEventListener('click', removeItem);
+
+    updateCartTotal()
   });
 
   // Ajout d'écouteurs d'événements pour changer la quantité des articles dans le panier
@@ -66,6 +68,7 @@ function changeQty() {
   }
   // Mettez à jour le nombre d'articles dans le bouton du panier
   updateCartItemCount();
+  updateTotal();
   loadContent();
 }
 
@@ -78,22 +81,26 @@ function addCart() {
   let price = food.querySelector('.food-price').innerHTML;
   let imgSrc = food.querySelector('.food-img').src;
   let newProduct = { title, price, imgSrc, quantity: 1 }; // Ajoutez la propriété quantity
-  // Vérifiez si le produit est déjà dans le panier
-  const existingProduct = itemList.find((el) => el.title === newProduct.title);
+  let existingProduct = itemList.find((item) => item.title === title);
+
   if (existingProduct) {
+    // Si l'article existe déjà, incrémente simplement la quantité
     existingProduct.quantity += 1;
     showNotification('Quantité mise à jour', `"${title}" a été ajouté au panier. La quantité est maintenant de ${existingProduct.quantity}.`);
   } else {
+    // Si l'article n'existe pas, ajoutez-le au panier
     itemList.push(newProduct);
     showNotification('Article ajouté', `"${title}" a été ajouté au panier.`);
   }
+
   // Mettre à jour le panier dans le localStorage
   localStorage.setItem('cartItems', JSON.stringify(itemList));
   updateCartItemCount();
-  const savedCartItems = JSON.parse(localStorage.getItem('cartItems'));
-  createCartProduct(savedCartItems);
+  createCartProduct(itemList); // Mettez à jour l'affichage du panier
+  updateTotal();
   loadContent();
 }
+
 
 // Fonction pour charger les articles du panier depuis le localStorage
 function loadCartItems() {
@@ -113,27 +120,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Fonction pour créer la structure HTML d'un article dans le panier
 function createCartProduct(array) {
-  console.log(array);
-  cartBasket.innerHTML= "";
-if (array.length >0) {
-  array.forEach((el)=> {
-    cartBasket.innerHTML +=`
-    <div class="cart-box">
-      <img src="${el.imgSrc}" class="cart-img">
-      <div class="detail-box">
-        <div class="cart-food-title">${el.title}</div>
-        <div class="price-box">
-          <div class="cart-price">${el.price}</div>
-          <div class="cart-amt">${el.price}</div>
+  cartBasket.innerHTML = "";
+  if (array.length > 0) {
+    array.forEach((el) => {
+      cartBasket.innerHTML += `
+        <div class="cart-box">
+          <img src="${el.imgSrc}" class="cart-img">
+          <div class="detail-box">
+            <div class="cart-food-title">${el.title}</div>
+            <div class="price-box">
+              <div class="cart-price">${el.price}</div>
+              <div class="cart-amt">$${(parseFloat(el.price.replace('$', '')) * el.quantity).toFixed(2)}</div>
+            </div>
+            <input type="number" value="${el.quantity}" class="cart-quantity">
+          </div>
+          <ion-icon name="trash" class="cart-remove"></ion-icon>
         </div>
-        <input type="number" value="1" class="cart-quantity">
-      </div>
-      <ion-icon name="trash" class="cart-remove"></ion-icon>
-    </div>
-  `;
-  }) 
+      `;
+    });
+
+    // Mettez à jour le montant total du panier
+    updateTotal();
+  }
 }
-}
+
 
 // Fonction pour mettre à jour le montant total du panier
 function updateTotal() {
@@ -147,9 +157,10 @@ function updateTotal() {
     total += price * qty;
     product.querySelector('.cart-amt').innerText = "$" + price * qty;
   });
-  totalValue.innerHTML = total + '$';
-  updateCartItemCount(); // Mettez à jour le compteur au chargement de la page
+  totalValue.innerHTML = "$" + total.toFixed(2); // Utilisez toFixed pour afficher deux décimales
+  updateCartItemCount();
 }
+
 // Fonction pour mettre à jour le nombre d'articles dans le bouton du panier
 function updateCartItemCount() {
   const cartCount = document.querySelector('#cart-count');
@@ -167,6 +178,19 @@ function updateCartItemCount() {
   } else {
     cartCount.style.display = 'none';
   }
+
+  updateCartTotal();
+}
+// Fonction pour mettre à jour le total dans le bouton du panier
+function updateCartTotal() {
+  const cartTotal = document.querySelector('#cart-total');
+  let total = 0;
+  // Parcourir la liste d'articles dans le panier et additionner les montants
+  itemList.forEach((item) => {
+    total += parseFloat(item.price.replace('$', '')) * item.quantity;
+  });
+  // Mettre à jour le contenu du total dans le bouton du panier
+  cartTotal.textContent = total.toFixed(2); // Arrondi à 2 décimales
 }
 // // Au chargement de la page, récupérez les données du localStorage s'il y en a
 // window.onload = function () {
@@ -324,6 +348,7 @@ imageContainers.forEach((container) => {
     });
   }
 });
+
 
 // notification.js
 
@@ -552,8 +577,19 @@ function createFoodBox(article) {
           star.classList.remove('selected');
         }
       });
+       // Obtenez l'ID de l'article
+    const articleId = article.id;
+
+    // Mettez à jour le vote de l'article dans le tableau jsonData
+    const foundArticle = jsonData.find((a) => a.id === articleId);
+    if (foundArticle) {
+      foundArticle.rating = selectedRating;
     }
-  });
+
+    // Stockez les votes mis à jour dans le localStorage
+    localStorage.setItem('articlesData', JSON.stringify(jsonData));
+  }
+});
 
 
   return foodBox;

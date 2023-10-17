@@ -198,14 +198,15 @@ h2.title {
 }
 
 .food-title {
-    font-size: 1rem;
+    margin-top: 1rem;
+    font-size: 14px;
     font-weight: 600;
     color: #070100;
 }
 
 .food-price {
     font-weight: 500;
-    margin-left: 8rem;
+    margin-left: 12rem;
 }
 
 .add-cart {
@@ -507,12 +508,11 @@ div>div>div {
 .rating {
     position: absolute;
     bottom: 10px;
-    margin-left: 10rem;
-    margin-bottom: 19rem
+    margin-left: 5rem;
 }
 
 .star {
-    font-size: 20px;
+    font-size: 14px;
     cursor: pointer;
 
 }
