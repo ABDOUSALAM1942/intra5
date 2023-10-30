@@ -223,79 +223,74 @@ function updateCartTotal() {
 // Supposons que vous avez déjà chargé vos articles depuis un fichier JSON et les avez stockés dans une variable articlesJSON.
 
 // Écoutez l'événement "input" sur l'élément de saisie de recherche
+
 const inputRecherche = document.getElementById("example-search-input");
 inputRecherche.addEventListener("input", function () {
-    // Récupérez la valeur saisie par l'utilisateur
-    const recherche = inputRecherche.value.toLowerCase();
+  // Récupérez la valeur saisie par l'utilisateur
+  const recherche = inputRecherche.value.toLowerCase();
 
-    // Filtrer les articles HTML
-    const articlesHTML = document.querySelectorAll(".food-box1, .food-box2, .food-box3");
-    articlesHTML.forEach(function (article) {
-        const titre = article.querySelector(".food-title").textContent.toLowerCase();
-        if (titre.includes(recherche)) {
-            article.style.display = "block"; // Afficher l'article s'il correspond à la recherche
-        } else {
-            article.style.display = "none"; // Masquer l'article s'il ne correspond pas
-        }
+  // Filtrer les articles HTML
+  const articlesHTML = document.querySelectorAll(".food-box1, .food-box2, .food-box3");
+  articlesHTML.forEach(function (article) {
+    const titre = article.querySelector(".food-title").textContent.toLowerCase();
+    if (titre.includes(recherche)) {
+      article.style.display = "block"; // Afficher l'article s'il correspond à la recherche
+    } else {
+      article.style.display = "none"; // Masquer l'article s'il ne correspond pas
+    }
+  });
+
+  // Filtrer les articles JSON
+  const articlesFiltres = articlesJSON.filter(function (article) {
+    const titre = article.title.toLowerCase();
+    return titre.includes(recherche);
+  });
+
+  // Mettez à jour votre interface utilisateur avec les résultats JSON (vous pouvez le personnaliser selon vos besoins)
+  const resultatJSON = document.getElementById("resultat-json");
+  resultatJSON.innerHTML = ""; // Effacez les résultats précédents
+  articlesFiltres.forEach(function (article) {
+    const articleDiv = document.createElement("div");
+    articleDiv.textContent = article.title;
+    resultatJSON.appendChild(articleDiv); // Ajoutez les résultats à votre interface utilisateur
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const allButton = document.getElementById("art1");
+  const cobraButton = document.getElementById("art2");
+  const reptileButton = document.getElementById("art3");
+  const mangousteButton = document.getElementById("art4");
+
+  const articles = document.querySelectorAll(".food-box1, .food-box2, .food-box3");
+  function filterArticles(category) {
+    articles.forEach((article) => {
+      const articleCategory = article.classList.contains("food-box1")
+        ? "food-box1"
+        : article.classList.contains("food-box2")
+        ? "food-box2"
+        : "food-box3";
+      const matchesCategory = category === "all" || articleCategory === category;
+      article.style.display = matchesCategory ? "block" : "none";
     });
 
-    // Filtrer les articles JSON
-    const articlesFiltres = articlesJSON.filter(function (article) {
-        const titre = article.title.toLowerCase();
-        return titre.includes(recherche);
+    // Filtrer également les éléments JSON
+    jsonData.forEach((item) => {
+      const itemElement = document.querySelector(`[data-article-id="${item.id}"]`);
+      if (itemElement) {
+        const matchesCategory = category === "all" || item.categorie === category;
+        itemElement.style.display = matchesCategory ? "block" : "none";
+      }
     });
+  }
 
-    // Mettez à jour votre interface utilisateur avec les résultats JSON (vous pouvez le personnaliser selon vos besoins)
-    const resultatJSON = document.getElementById("resultat-json");
-    resultatJSON.innerHTML = ""; // Effacez les résultats précédents
-    articlesFiltres.forEach(function (article) {
-        const articleDiv = document.createElement("div");
-        articleDiv.textContent = article.title;
-        resultatJSON.appendChild(articleDiv); // Ajoutez les résultats à votre interface utilisateur
-    });
-});
+  allButton.addEventListener("click", () => filterArticles("all"));
+  cobraButton.addEventListener("click", () => filterArticles("food-box1"));
+  reptileButton.addEventListener("click", () => filterArticles("food-box2"));
+  mangousteButton.addEventListener("click", () => filterArticles("food-box3"));
 
-
-// Sélectionnez les boutons de catégorie existants
-var btnAll = document.getElementById('art1');
-var btnCobra = document.getElementById('art2');
-var btnReptile = document.getElementById('art3');
-var btnMangouste = document.getElementById('art4');
-
-// Ajoutez un gestionnaire d'événements pour le bouton "Tout"
-btnAll.addEventListener('click', function () {
-  // Utilisez la classe de catégorie pour filtrer tous les articles
-  document.querySelectorAll('.food-box1, .food-box2, .food-box3').forEach(function (item) {
-    item.style.display = 'block';
-  });
-});
-
-// Ajoutez des gestionnaires d'événements pour les autres boutons de filtre
-btnCobra.addEventListener('click', function () {
-  document.querySelectorAll('.food-box1').forEach(function (item) {
-    item.style.display = 'block';
-  });
-  document.querySelectorAll('.food-box2, .food-box3').forEach(function (item) {
-    item.style.display = 'none';
-  });
-});
-
-btnReptile.addEventListener('click', function () {
-  document.querySelectorAll('.food-box2').forEach(function (item) {
-    item.style.display = 'block';
-  });
-  document.querySelectorAll('.food-box1, .food-box3').forEach(function (item) {
-    item.style.display = 'none';
-  });
-});
-
-btnMangouste.addEventListener('click', function () {
-  document.querySelectorAll('.food-box3').forEach(function (item) {
-    item.style.display = 'block';
-  });
-  document.querySelectorAll('.food-box1, .food-box2').forEach(function (item) {
-    item.style.display = 'none';
-  });
+  filterArticles("all");
 });
 
 
@@ -319,7 +314,7 @@ const imageContainers = document.querySelectorAll('.pic');
 
 imageContainers.forEach((container) => {
   const stars = container.querySelectorAll('.star');
-  const ratingContainer = container.querySelector('.rating .rating');
+  const ratingContainer = container.querySelectorAll('.rating');
   let selectedRating = 0;
 
   stars.forEach((star) => {
@@ -420,181 +415,157 @@ modalClose.addEventListener('click', () => {
   modal.style.display = 'none'; // Fermez la modal en la masquant
 });
 
-const jsonData = [
+let jsonData = [
   {
-    "id": "article1",
+    "id": 13,
     "nom": "Cobra7",
     prix: 90,
     "image": "./images/cobra7.jpeg",
-    "votes": 4,
     "filtres": ["Filtre 8", "Filtre 9"],
-    "categorie": "food-box1"
+    "categorie": "food-box1",
+    "rating": 0
   },
   {
-    "id": "article2",
+    "id": 14,
+    "rating": 0,
     "nom": "Reptile4",
     prix: 190,
     "image": "./images/reptile4.jpeg",
-    "votes": 4,
     "filtres": ["Filtre 8", "Filtre 9"],
     "categorie": "food-box2"
   },
   {
-    "id": "article3",
+    "id": 15,
+    "rating": 0,
     "nom": "Mangouste4",
     prix: 240,
     "image": "./images/Mangouste4.jpeg",
-    "votes": 3,
     "filtres": ["Filtre 10", "Filtre 11"],
     "categorie": "food-box3"
   },
   {
-    "id": "article4",
+    "id": 16,
+    "rating": 0,
     "nom": "Reptile5",
     prix: 140,
     "image": "./images/Reptile5.jpeg",
-    "votes": 4,
     "filtres": ["Filtre 8", "Filtre 9"],
     "categorie": "food-box2"
   },
   {
-    "id": "article5",
+    "id": 17,
+    "rating": 0,
     "nom": "Mangouste5",
     prix: 210,
     "image": "./images/Mangouste5.jpeg",
-    "votes": 3,
     "filtres": ["Filtre 10", "Filtre 11"],
     "categorie": "food-box3"
   },
   {
-    "id": "article6",
+    "id": 18,
+    "rating": 0,
     "nom": "Reptile6",
     prix: 135,
     "image": "./images/Reptile6.jpeg",
-    "votes": 3,
     "filtres": ["Filtre 10", "Filtre 11"],
     "categorie": "food-box2"
   },
   {
-    "id": "article7",
+    "id": 19,
+    "rating": 0,
     "nom": "Mangouste6",
     prix: 300,
     "image": "./images/Mangouste6.jpeg",
-    "votes": 3,
     "filtres": ["Filtre 10", "Filtre 11"],
     "categorie": "food-box3"
   },
   {
-    "id": "article8",
+    "id": 20,
+    "rating": 0,
     "nom": "Mangouste7",
     prix: 340,
     "image": "./images/Mangouste7.webp",
-    "votes": 3,
     "filtres": ["Filtre 10", "Filtre 11"],
     "categorie": "food-box3"
   },
 ]
 
-// Fonction pour créer la structure HTML d'un article
 function createFoodBox(article) {
   const foodBox = document.createElement("div");
+  foodBox.classList.add("food-box1", "articles");
+  foodBox.setAttribute("data-article-id", article.id);
+
   const picDiv = document.createElement("div");
-  const baima = document.createElement("div");
-  // Ajoutez "overflow: hidden" à l'élément img
-  foodBox.style.overflow = "hidden";
-  foodBox.classList.add("food-box");
-  foodBox.classList.add(article.categorie); // Ajoutez la classe de catégorie
-  foodBox.classList.add("articles"); // Ajoutez la classe "articles" pour filtrage
   picDiv.classList.add("pic");
-  // Créez les éléments HTML pour l'article
-  // Créez l'élément img et ajoutez-lui une classe
+
   const image = document.createElement("img");
   image.src = article.image;
   image.classList.add("food-img");
-  image.classList.add("food-img-hover"); // Ajoutez une classe pour le style au survol
-
-  baima.classList.add("baima");
-
-  const title = document.createElement("h2");
-  title.classList.add("food-title");
-  title.textContent = article.nom;
-  title.style.marginRight = "190px";
-
-
-
-  const price = document.createElement("span");
-  price.classList.add("food-price");
-  price.textContent = article.prix + " $";
-  price.style.marginLeft = "190px";
 
   const rating = document.createElement("div");
   rating.classList.add("rating");
 
-  // Créez les étoiles de notation ici
+  let selectedRating = 0; // Variable pour stocker le vote sélectionné
+
   for (let i = 1; i <= 5; i++) {
     const star = document.createElement("span");
     star.classList.add("star");
     star.setAttribute("data-rating", i);
+    star.innerHTML = "&#9733"; // Utilisez innerHTML pour ajouter le symbole étoile sans le point-virgule
 
-    // Ajoutez un symbole d'étoile (★) comme texte à l'intérieur de l'élément span
-    star.textContent = "★";
+    star.addEventListener("click", (event) => {
+      // Gérer le clic sur une étoile
+      selectedRating = parseInt(event.target.getAttribute("data-rating"));
+
+      // Mettez à jour le style des étoiles pour refléter le vote
+      updateRatingStars(rating, selectedRating);
+
+      // Vous pouvez également effectuer d'autres actions ici en fonction du vote
+      // Par exemple, envoyer le vote au serveur.
+    });
 
     rating.appendChild(star);
   }
 
-  const addToCart = document.createElement("ion-icon");
-  addToCart.name = "cart";
-  addToCart.classList.add("add-cart");
+  const baima = document.createElement("div");
+  baima.classList.add("baima", "d-flex", "my-3");
 
-  // Ajoutez ces éléments à la foodBox
-  foodBox.appendChild(picDiv);
-  picDiv.appendChild(image);
-  foodBox.appendChild(baima);
+  const title = document.createElement("h2");
+  title.classList.add("food-title");
+  title.textContent = article.nom;
+
+  const price = document.createElement("span");
+  price.classList.add("food-price");
+  price.textContent = article.prix + " $";
+
+  const ionIcon = document.createElement("ion-icon");
+  ionIcon.name = "cart";
+  ionIcon.classList.add("add-cart");
+
   baima.appendChild(title);
   baima.appendChild(price);
+
+  picDiv.appendChild(image);
   picDiv.appendChild(rating);
-  foodBox.appendChild(addToCart);
 
-
-  // Ajoutez un gestionnaire d'événements pour les votes
-  rating.addEventListener("click", (event) => {
-    if (event.target.classList.contains("star")) {
-      const selectedRating = parseInt(event.target.dataset.rating);
-      // Vous pouvez maintenant mettre en œuvre la logique de vote ici
-      // Par exemple, enregistrer le vote dans l'objet article ou dans une base de données
-      // Puis mettez à jour l'affichage des étoiles en conséquence
-
-
-      // Obtenez toutes les étoiles
-      const stars = rating.querySelectorAll('.star');
-
-      // Parcourez toutes les étoiles et ajoutez la classe 'selected' à celles jusqu'à l'étoile cliquée
-      stars.forEach((star) => {
-        const starRating = parseInt(star.dataset.rating);
-        if (starRating <= selectedRating) {
-          star.classList.add('selected');
-        } else {
-          star.classList.remove('selected');
-        }
-      });
-       // Obtenez l'ID de l'article
-    const articleId = article.id;
-
-    // Mettez à jour le vote de l'article dans le tableau jsonData
-    const foundArticle = jsonData.find((a) => a.id === articleId);
-    if (foundArticle) {
-      foundArticle.rating = selectedRating;
-    }
-
-    // Stockez les votes mis à jour dans le localStorage
-    localStorage.setItem('articlesData', JSON.stringify(jsonData));
-  }
-});
-
+  foodBox.appendChild(picDiv);
+  foodBox.appendChild(baima);
+  foodBox.appendChild(ionIcon);
 
   return foodBox;
 }
 
+// Fonction pour mettre à jour le style des étoiles de notation
+function updateRatingStars(ratingElement, selectedRating) {
+  const stars = ratingElement.querySelectorAll(".star");
+  stars.forEach((star, index) => {
+    if (index < selectedRating) {
+      star.classList.add("selected");
+    } else {
+      star.classList.remove("selected");
+    }
+  });
+}
 
 // Fonction pour créer et afficher les articles à partir des données JSON
 function displayArticles(data) {
@@ -607,8 +578,67 @@ function displayArticles(data) {
   });
 }
 
+
 // Appel de la fonction pour afficher les articles à partir des données JSON
 displayArticles(jsonData);
 
 const savedCartItems = JSON.parse(localStorage.getItem('cartItems'));
 createCartProduct(savedCartItems);
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Objet pour stocker les évaluations
+  const ratings = {};
+
+  function loadRatingsFromObject() {
+    const articleElements = document.querySelectorAll(".food-box1, .food-box2, .food-box3");
+
+    articleElements.forEach((articleElement) => {
+      const articleId = articleElement.getAttribute("data-article-id");
+
+      // Vérifie si une évaluation existe pour cet article dans le localStorage
+      const storedRatings = JSON.parse(localStorage.getItem('ratings'));
+      const rating = storedRatings && storedRatings[articleId] !== undefined
+        ? storedRatings[articleId]
+        : 0; // Utilise 0 comme valeur par défaut si l'évaluation n'existe pas
+
+      // Mettre à jour l'évaluation depuis l'objet ratings
+      const stars = articleElement.querySelectorAll(".star");
+      stars.forEach((star, index) => {
+        star.classList.toggle("rated", index < rating);
+      });
+
+      // Enregistrer l'évaluation dans l'objet ratings
+      ratings[articleId] = rating;
+    });
+  }
+
+  // Appel de la fonction pour charger les évaluations depuis le `localStorage`
+  loadRatingsFromObject();
+
+  // Gestionnaire d'événements pour les évaluations (étoiles)
+  document.addEventListener("click", function (event) {
+    if (event.target.classList.contains("star")) {
+      const articleElement = event.target.closest(".food-box1, .food-box2, .food-box3");
+      if (articleElement) {
+        const articleId = articleElement.getAttribute("data-article-id");
+        const rating = parseInt(event.target.getAttribute("data-rating"), 10);
+
+        // Mettre à jour l'interface utilisateur
+        const stars = articleElement.querySelectorAll(".star");
+        stars.forEach((star, index) => {
+          star.classList.toggle("rated", index < rating);
+        });
+
+        // Enregistrer l'évaluation dans l'objet ratings
+        ratings[articleId] = rating;
+
+        // Mettre à jour le localStorage avec les évaluations
+        localStorage.setItem('ratings', JSON.stringify(ratings));
+      }
+    }
+  });
+
+});
+
+
+
