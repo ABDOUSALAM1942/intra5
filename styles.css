@@ -24,7 +24,7 @@ body {
 }
 
 .precontainer {
-    background-image: url("https://www.gembloux.uliege.be/upload/docs/image/jpeg/2019-01/savanna_andyplumptre.jpg");
+    background-image: url("https://cdn.shopify.com/s/files/1/0270/1793/6970/files/rever-de-serpent-en-islam-2_1024x1024.png?v=1696452484");
     background-repeat: no-repeat;
     background-size: 100%;
     background-attachment: fixed;
@@ -43,6 +43,9 @@ body {
     margin-bottom: 25rem;
     background: none;
     border: 3px solid black;
+}
+#boutonwel:hover {
+    background-color: rgb(106, 110, 233);
 }
 
 #boutonwel2 {
@@ -514,7 +517,6 @@ div>div>div {
 .star {
     font-size: 14px;
     cursor: pointer;
-
 }
 
 .star:hover {
@@ -522,7 +524,7 @@ div>div>div {
 }
 
 .star.selected {
-    color: gold;
+    color: rgb(179, 16, 201);
 }
 
 

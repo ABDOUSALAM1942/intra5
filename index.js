@@ -8,22 +8,12 @@ let cartBasket = document.querySelector('.cart-content');
 
 // Écouteurs d'événements pour le bouton de panier et le bouton de fermeture
 btnCart.addEventListener('click', () => {
-  // Lorsque le bouton de panier est cliqué, ajoutez la classe 'cart-active' pour afficher le panier
   cart.classList.add('cart-active');
 });
 
 btnClose.addEventListener('click', () => {
-  // Lorsque le bouton de fermeture du panier est cliqué, supprimez la classe 'cart-active' pour masquer le panier
   cart.classList.remove('cart-active');
 });
-
-// // Écouteur d'événement lorsque le contenu de la page est chargé
-// document.addEventListener('DOMContentLoaded', loadSnack);
-
-// // Fonction pour charger le contenu initial
-// function loadSnack() {
-//   loadContent();
-// }
 
 // Fonction pour charger le contenu
 function loadContent() {
@@ -31,7 +21,6 @@ function loadContent() {
   let btnRemove = document.querySelectorAll('.cart-remove');
   btnRemove.forEach((btn) => {
     btn.addEventListener('click', removeItem);
-
     updateCartTotal()
   });
 
@@ -46,7 +35,6 @@ function loadContent() {
   cartBtns.forEach((btn) => {
     btn.addEventListener('click', addCart);
   });
-
   // Mettre à jour le montant total du panier
   updateTotal();
   // Appeler la fonction showNotification ici si nécessaire
@@ -75,11 +63,24 @@ function changeQty() {
 // Tableau pour stocker les articles du panier
 let itemList = [];
 
-function addCart() {
-  let food = this.parentElement;
-  let title = food.querySelector('.food-title').innerHTML;
-  let price = food.querySelector('.food-price').innerHTML;
-  let imgSrc = food.querySelector('.food-img').src;
+// Gestionnaire d'événements pour le bouton "addCart" des articles JSON
+document.addEventListener('click', (event) => {
+  const target = event.target;
+  if (target.classList.contains('add-cart')) {
+    event.stopPropagation(); // Empêcher la propagation de l'événement
+    const articleId = target.closest('.food-box1, .food-box2, .food-box3').dataset.articleId;
+    addCart(articleId);
+  }
+});
+function addCart(articleId) {
+  let article = jsonData.find((item) => item.id === parseInt(articleId));
+  if (!article) {
+    return; // Quitter la fonction si l'article n'est pas trouvé
+  }
+
+  let title = article.nom;
+  let price = article.prix + " $";
+  let imgSrc = article.image;
   let newProduct = { title, price, imgSrc, quantity: 1 }; // Ajoutez la propriété quantity
   let existingProduct = itemList.find((item) => item.title === title);
 
@@ -102,6 +103,9 @@ function addCart() {
 }
 
 
+
+
+
 // Fonction pour charger les articles du panier depuis le localStorage
 function loadCartItems() {
   const savedCartItems = localStorage.getItem('cartItems');
@@ -111,12 +115,12 @@ function loadCartItems() {
   }
 }
 
-// updateCartItemCount au chargement de la page pour afficher le nombre d'articles initial :
-document.addEventListener('DOMContentLoaded', () => {
-  loadCartItems();
-  loadContent();
-  updateCartItemCount(); // Mettez à jour le compteur au chargement de la page
-});
+// // updateCartItemCount au chargement de la page pour afficher le nombre d'articles initial :
+// document.addEventListener('DOMContentLoaded', () => {
+//   loadCartItems();
+//   loadContent();
+//   updateCartItemCount(); // Mettez à jour le compteur au chargement de la page
+// });
 
 // Fonction pour créer la structure HTML d'un article dans le panier
 function createCartProduct(array) {
@@ -192,37 +196,6 @@ function updateCartTotal() {
   // Mettre à jour le contenu du total dans le bouton du panier
   cartTotal.textContent = total.toFixed(2); // Arrondi à 2 décimales
 }
-// // Au chargement de la page, récupérez les données du localStorage s'il y en a
-// window.onload = function () {
-//   const storedItems = localStorage.getItem('cartItems');
-//   if (storedItems) {
-//     itemList = JSON.parse(storedItems);
-//     // Mettez à jour le nombre d'articles dans le bouton du panier
-//     updateCartItemCount();
-//   }
-// }
-
-// // Récupère les éléments à filtrer
-// var foodItems = document.querySelectorAll('.food-box1, .food-box2, .food-box3, .food-box');
-// var searchInput = document.getElementById('example-search-input');
-// searchInput.addEventListener('input', function () {
-//   var filter = searchInput.value.toLowerCase();
-//   // Parcourt tous les éléments de la liste
-//   foodItems.forEach(function (item) {
-//     var titleElement = item.querySelector('.food-title');
-//     var titleText = titleElement.textContent.toLowerCase();
-//     // Vérifie si le texte du titre correspond au filtre
-//     if (titleText.indexOf(filter) !== -1) {
-//       item.style.display = 'block'; // Affiche l'élément
-//     } else {
-//       item.style.display = 'none'; // Masque l'élément
-//     }
-//   });
-// });
-
-// Supposons que vous avez déjà chargé vos articles depuis un fichier JSON et les avez stockés dans une variable articlesJSON.
-
-// Écoutez l'événement "input" sur l'élément de saisie de recherche
 
 const inputRecherche = document.getElementById("example-search-input");
 inputRecherche.addEventListener("input", function () {
@@ -258,6 +231,9 @@ inputRecherche.addEventListener("input", function () {
 
 
 document.addEventListener("DOMContentLoaded", function () {
+  loadCartItems();
+  loadContent();
+  updateCartItemCount(); // Mettez à jour le compteur au chargement de la page
   const allButton = document.getElementById("art1");
   const cobraButton = document.getElementById("art2");
   const reptileButton = document.getElementById("art3");
@@ -269,8 +245,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const articleCategory = article.classList.contains("food-box1")
         ? "food-box1"
         : article.classList.contains("food-box2")
-        ? "food-box2"
-        : "food-box3";
+          ? "food-box2"
+          : "food-box3";
       const matchesCategory = category === "all" || articleCategory === category;
       article.style.display = matchesCategory ? "block" : "none";
     });
@@ -310,41 +286,6 @@ function remplirDatalist() {
   });
 }
 
-const imageContainers = document.querySelectorAll('.pic');
-
-imageContainers.forEach((container) => {
-  const stars = container.querySelectorAll('.star');
-  const ratingContainer = container.querySelectorAll('.rating');
-  let selectedRating = 0;
-
-  stars.forEach((star) => {
-    star.addEventListener('mouseover', () => {
-      const rating = star.getAttribute('data-rating');
-      highlightStars(stars, rating);
-    });
-
-    star.addEventListener('click', () => {
-      selectedRating = star.getAttribute('data-rating');
-      ratingContainer.textContent = selectedRating;
-    });
-
-    star.addEventListener('mouseout', () => {
-      highlightStars(stars, selectedRating);
-    });
-  });
-
-  function highlightStars(stars, rating) {
-    stars.forEach((star) => {
-      if (star.getAttribute('data-rating') <= rating) {
-        star.style.color = 'gold';
-      } else {
-        star.style.color = 'gray';
-      }
-    });
-  }
-});
-
-
 // notification.js
 
 // Fonction pour afficher la fenêtre modale de notification
@@ -363,6 +304,34 @@ function showNotification(title, message) {
   }, 2000);
 }
 
+// // Sélectionnez tous les éléments des classes "food-box1", "food-box2" et "food-box3"
+// const foodBoxes = document.querySelectorAll('.pic');
+
+// // Sélectionnez la modal et ses éléments
+// const modal = document.getElementById('image-modal');
+// const modalImage = document.getElementById('modal-image');
+// const modalClose = document.getElementById('modal-close2');
+// const prevImageBtn = document.getElementById('prev-image');
+// const nextImageBtn = document.getElementById('next-image');
+// let currentIndex = 0; // Indice de l'image actuelle
+
+// // Ajoutez un gestionnaire d'événements à chaque élément des classes "food-box1", "food-box2" et "food-box3"
+// foodBoxes.forEach((foodBox, index) => {
+//   foodBox.addEventListener('click', () => {
+//     currentIndex = index; // Définissez l'indice de l'image actuelle
+//     showImageAtIndex(currentIndex);
+//     modal.style.display = 'block'; // Affichez la modal
+//   });
+// });
+
+// // Fonction pour afficher l'image à un indice donné
+// function showImageAtIndex(index) {
+//   // Récupérez l'image à l'indice spécifié
+//   const foodImage = foodBoxes[index].querySelector('.food-img');
+//   const imageSrc = foodImage.src;
+//   // Définissez la source de l'image dans la modal
+//   modalImage.src = imageSrc;
+// }
 
 // Sélectionnez tous les éléments des classes "food-box1", "food-box2" et "food-box3"
 const foodBoxes = document.querySelectorAll('.pic');
@@ -375,49 +344,67 @@ const prevImageBtn = document.getElementById('prev-image');
 const nextImageBtn = document.getElementById('next-image');
 let currentIndex = 0; // Indice de l'image actuelle
 
-// Ajoutez un gestionnaire d'événements à chaque élément des classes "food-box1", "food-box2" et "food-box3"
-foodBoxes.forEach((foodBox, index) => {
-  foodBox.addEventListener('click', () => {
-    currentIndex = index; // Définissez l'indice de l'image actuelle
-    showImageAtIndex(currentIndex);
-    modal.style.display = 'block'; // Affichez la modal
-  });
-});
+// // Ajoutez un gestionnaire d'événements à chaque élément des classes "food-box1", "food-box2" et "food-box3"
+// foodBoxes.forEach((foodBox, index) => {
+//   // Modifiez le sélecteur pour cibler directement ".food-img"
+//   const foodImage = foodBox.querySelector('.food-img');
 
-// Fonction pour afficher l'image à un indice donné
+//   foodImage.addEventListener('click', () => {
+//     currentIndex = index; // Définissez l'indice de l'image actuelle
+//     showImageAtIndex(currentIndex);
+//     modal.style.display = 'block'; // Affichez la modal
+//   });
+// });
+
 function showImageAtIndex(index) {
-  // Récupérez l'image à l'indice spécifié
-  const foodImage = foodBoxes[index].querySelector('.food-img');
-  const imageSrc = foodImage.src;
-
-  // Définissez la source de l'image dans la modal
+  const article = jsonData.find((item) => item.id === index);
+  const imageSrc = article.image;
   modalImage.src = imageSrc;
 }
 
 // Gestionnaire d'événements pour le bouton "Précédent"
 prevImageBtn.addEventListener('click', () => {
-  if (currentIndex > 0) {
-    currentIndex--;
+  const prevIndex = findPrevIndex(currentIndex);
+  if (prevIndex !== null) {
+    currentIndex = prevIndex;
     showImageAtIndex(currentIndex);
   }
 });
 
+// Fonction pour trouver l'indice précédent dans les articles JSON
+function findPrevIndex(currentIndex) {
+  const currentIndexInArray = jsonData.findIndex((item) => item.id === currentIndex);
+  if (currentIndexInArray > 0) {
+    return jsonData[currentIndexInArray - 1].id;
+  }
+  return null;
+}
 // Gestionnaire d'événements pour le bouton "Suivant"
 nextImageBtn.addEventListener('click', () => {
-  if (currentIndex < foodBoxes.length - 1) {
-    currentIndex++;
+  const nextIndex = findNextIndex(currentIndex);
+  if (nextIndex !== null) {
+    currentIndex = nextIndex;
     showImageAtIndex(currentIndex);
   }
 });
 
+// Fonction pour trouver l'indice suivant dans les articles JSON
+function findNextIndex(currentIndex) {
+  const currentIndexInArray = jsonData.findIndex((item) => item.id === currentIndex);
+  if (currentIndexInArray < jsonData.length - 1) {
+    return jsonData[currentIndexInArray + 1].id;
+  }
+  return null;
+}
 // Ajoutez un gestionnaire d'événements pour fermer la modal
 modalClose.addEventListener('click', () => {
   modal.style.display = 'none'; // Fermez la modal en la masquant
 });
 
+
 let jsonData = [
   {
-    "id": 13,
+    "id": 1,
     "nom": "Cobra7",
     prix: 90,
     "image": "./images/cobra7.jpeg",
@@ -426,7 +413,7 @@ let jsonData = [
     "rating": 0
   },
   {
-    "id": 14,
+    "id": 2,
     "rating": 0,
     "nom": "Reptile4",
     prix: 190,
@@ -435,7 +422,7 @@ let jsonData = [
     "categorie": "food-box2"
   },
   {
-    "id": 15,
+    "id": 3,
     "rating": 0,
     "nom": "Mangouste4",
     prix: 240,
@@ -444,7 +431,7 @@ let jsonData = [
     "categorie": "food-box3"
   },
   {
-    "id": 16,
+    "id": 4,
     "rating": 0,
     "nom": "Reptile5",
     prix: 140,
@@ -453,7 +440,7 @@ let jsonData = [
     "categorie": "food-box2"
   },
   {
-    "id": 17,
+    "id": 5,
     "rating": 0,
     "nom": "Mangouste5",
     prix: 210,
@@ -462,7 +449,7 @@ let jsonData = [
     "categorie": "food-box3"
   },
   {
-    "id": 18,
+    "id": 6,
     "rating": 0,
     "nom": "Reptile6",
     prix: 135,
@@ -471,7 +458,7 @@ let jsonData = [
     "categorie": "food-box2"
   },
   {
-    "id": 19,
+    "id": 7,
     "rating": 0,
     "nom": "Mangouste6",
     prix: 300,
@@ -480,7 +467,7 @@ let jsonData = [
     "categorie": "food-box3"
   },
   {
-    "id": 20,
+    "id": 8,
     "rating": 0,
     "nom": "Mangouste7",
     prix: 340,
@@ -488,6 +475,15 @@ let jsonData = [
     "filtres": ["Filtre 10", "Filtre 11"],
     "categorie": "food-box3"
   },
+  {
+    "id": 9,
+    "nom": "Cobra2",
+    prix: 90,
+    "image": "./images/cobra7.jpeg",
+    "filtres": ["Filtre 8", "Filtre 9"],
+    "categorie": "food-box1",
+    "rating": 0
+  }
 ]
 
 function createFoodBox(article) {
@@ -506,7 +502,6 @@ function createFoodBox(article) {
   rating.classList.add("rating");
 
   let selectedRating = 0; // Variable pour stocker le vote sélectionné
-
   for (let i = 1; i <= 5; i++) {
     const star = document.createElement("span");
     star.classList.add("star");
@@ -514,6 +509,7 @@ function createFoodBox(article) {
     star.innerHTML = "&#9733"; // Utilisez innerHTML pour ajouter le symbole étoile sans le point-virgule
 
     star.addEventListener("click", (event) => {
+      event.stopPropagation(); // Empêcher la propagation de l'événement
       // Gérer le clic sur une étoile
       selectedRating = parseInt(event.target.getAttribute("data-rating"));
 
@@ -526,7 +522,6 @@ function createFoodBox(article) {
 
     rating.appendChild(star);
   }
-
   const baima = document.createElement("div");
   baima.classList.add("baima", "d-flex", "my-3");
 
@@ -552,6 +547,13 @@ function createFoodBox(article) {
   foodBox.appendChild(baima);
   foodBox.appendChild(ionIcon);
 
+  // Ajoutez un gestionnaire d'événements à l'élément foodBox créé dynamiquement
+  foodBox.addEventListener('click', () => {
+    currentIndex = article.id; // Utilisez l'identifiant unique de l'article comme indice
+    showImageAtIndex(currentIndex);
+    modal.style.display = 'block';
+  });
+
   return foodBox;
 }
 
@@ -569,76 +571,46 @@ function updateRatingStars(ratingElement, selectedRating) {
 
 // Fonction pour créer et afficher les articles à partir des données JSON
 function displayArticles(data) {
-  const shopContent = document.querySelector(".shop-content"); // La div avec la classe .shop-content
-
+  const shopContent = document.querySelector(".shop-content");
   data.forEach((articleData) => {
     const foodBox = createFoodBox(articleData);
-    foodBox.classList.add('articles'); // Ajoutez la classe articles pour cacher initialement les éléments
     shopContent.appendChild(foodBox);
+
+    // Ajoutez un gestionnaire d'événements au bouton "Ajouter au panier" de chaque article
+    const ionIcon = foodBox.querySelector('.add-cart');
+    ionIcon.addEventListener('click', (event) => {
+      event.stopPropagation(); // Empêchez la propagation de l'événement au conteneur parent
+      addCart(articleData.id);
+    });
   });
 }
 
-
 // Appel de la fonction pour afficher les articles à partir des données JSON
 displayArticles(jsonData);
-
 const savedCartItems = JSON.parse(localStorage.getItem('cartItems'));
 createCartProduct(savedCartItems);
 
-document.addEventListener("DOMContentLoaded", function () {
-  // Objet pour stocker les évaluations
-  const ratings = {};
-
-  function loadRatingsFromObject() {
-    const articleElements = document.querySelectorAll(".food-box1, .food-box2, .food-box3");
-
-    articleElements.forEach((articleElement) => {
-      const articleId = articleElement.getAttribute("data-article-id");
-
-      // Vérifie si une évaluation existe pour cet article dans le localStorage
-      const storedRatings = JSON.parse(localStorage.getItem('ratings'));
-      const rating = storedRatings && storedRatings[articleId] !== undefined
-        ? storedRatings[articleId]
-        : 0; // Utilise 0 comme valeur par défaut si l'évaluation n'existe pas
-
-      // Mettre à jour l'évaluation depuis l'objet ratings
-      const stars = articleElement.querySelectorAll(".star");
-      stars.forEach((star, index) => {
-        star.classList.toggle("rated", index < rating);
+const ratingEtoi = document.querySelectorAll('.rating');
+ratingEtoi.forEach((ratingElement, articleIndex) => {
+  const stars = [...ratingElement.children].filter(child => child.className === "star");
+  stars.forEach((star, starIndex) => {
+    star.addEventListener('click', () => {
+      stars.forEach((s, index) => {
+        starIndex >= index ? s.classList.add('selected') : s.classList.remove('selected');
       });
-
-      // Enregistrer l'évaluation dans l'objet ratings
-      ratings[articleId] = rating;
+      // Enregistrez les étoiles dans le localStorage pour chaque article
+      const ratingData = Array.from(stars).map(s => s.classList.contains('selected'));
+      localStorage.setItem(`userRating-${articleIndex}`, JSON.stringify(ratingData));
     });
-  }
-
-  // Appel de la fonction pour charger les évaluations depuis le `localStorage`
-  loadRatingsFromObject();
-
-  // Gestionnaire d'événements pour les évaluations (étoiles)
-  document.addEventListener("click", function (event) {
-    if (event.target.classList.contains("star")) {
-      const articleElement = event.target.closest(".food-box1, .food-box2, .food-box3");
-      if (articleElement) {
-        const articleId = articleElement.getAttribute("data-article-id");
-        const rating = parseInt(event.target.getAttribute("data-rating"), 10);
-
-        // Mettre à jour l'interface utilisateur
-        const stars = articleElement.querySelectorAll(".star");
-        stars.forEach((star, index) => {
-          star.classList.toggle("rated", index < rating);
-        });
-
-        // Enregistrer l'évaluation dans l'objet ratings
-        ratings[articleId] = rating;
-
-        // Mettre à jour le localStorage avec les évaluations
-        localStorage.setItem('ratings', JSON.stringify(ratings));
+    // Récupérez et initialisez les étoiles depuis le localStorage
+    const userRatingData = JSON.parse(localStorage.getItem(`userRating-${articleIndex}`));
+    if (userRatingData && userRatingData.length === stars.length) {
+      if (userRatingData[starIndex]) {
+        star.classList.add('selected');
+      } else {
+        star.classList.remove('selected');
       }
     }
   });
-
 });
-
-
 
